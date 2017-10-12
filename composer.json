@@ -1,0 +1,21 @@
+{
+    "name": "b-alidra/epg-generator",
+    "description": "French channels EGP generator",
+    "type": "project",
+    "require": {
+        "b-alidra/xmltv": "^1.0",
+        "guzzlehttp/guzzle": "^6.3",
+        "symfony/console": "^3.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Belkacem Alidra",
+            "email": "belkacem.alidra@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "EPG\\": "src/EPG" }
+    },
+    "bin": ["script/epg.php"]
+}
