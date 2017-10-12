@@ -122,7 +122,7 @@ class TelestarProvider
      *     public $id              => int
      *     public $thumbnail_small => string
      *     public $thumbnail_big   => string
-     $     public $url             => string
+     *     public $url             => string
      *     public $script          => string
      *     public $program_id      => int
      *   }
