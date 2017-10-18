@@ -66,8 +66,12 @@ class TelestarSniffer extends Sniffer
      *    public $third_part_id => int
      *    public $digimondo_id  => int
      * }
+     *
+     * @param array $channel_ids: Filter on channels
+     *
+     * @return EPG\Entities\Channel[]
      */
-    public function fetch_channels()
+    public function fetch_channels($channel_ids = [])
     {
         $packages = $this->fetch_packages();
 
@@ -95,11 +99,12 @@ class TelestarSniffer extends Sniffer
         }
 
         // Filter on selected channels, if any
-        if (!empty($this->channel_ids)) {
-            $ids = $this->channel_ids;
-            $this->channels = array_filter($this->channels, function ($channel) use ($ids) {
-                return in_array($channel->id, $ids);
-            });
+        if (!empty($channel_ids)) {
+            $this->channels = array_filter($this->channels,
+                function ($channel) use ($channel_ids) {
+                    return in_array($channel->id, $channel_ids);
+                }
+            );
             $this->channels = array_values($this->channels);
         }
 
@@ -108,6 +113,9 @@ class TelestarSniffer extends Sniffer
 
     /**
      * Get an array of program
+     *
+     * @param array $channel_ids: Filter on channels
+     * @param int $nb_days: number of days to grab
      *
      * @return array: An array of Program, as
      *
@@ -189,16 +197,16 @@ class TelestarSniffer extends Sniffer
      *     }
      *  }
      */
-    public function fetch_programs()
+    public function fetch_programs($channel_ids, $nb_days = 1)
     {
         if (!empty($this->programs)) {
             return $this->programs;
         }
 
-        $this->fetch_channels();
+        $this->fetch_channels($channel_ids);
 
         $day = new \Datetime();
-        for ($i = 0; $i < $this->nb_days; $i++) {
+        for ($i = 0; $i < $nb_days; $i++) {
             foreach ($this->channels as $channel) {
                 $url = sprintf(
                     sprintf('%s%s', static::BASE_URI, static::CHANNEL_URI),

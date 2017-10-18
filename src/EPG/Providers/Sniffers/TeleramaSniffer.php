@@ -49,9 +49,11 @@ class TeleramaSniffer extends Sniffer
      *     public $replay_nom   => string
      * }
      *
+     * @param array $channel_ids: Filter on channels
+     *
      * @return EPG\Entities\Channel[]
      */
-    public function fetch_channels()
+    public function fetch_channels($channel_ids = [])
     {
         if (!empty($this->channels)) {
             return $this->channels;
@@ -71,11 +73,12 @@ class TeleramaSniffer extends Sniffer
         $this->channels = $data->donnees->chaines;
 
         // Filter on selected channels, if any
-        if (!empty($this->channel_ids)) {
-            $ids = $this->channel_ids;
-            $this->channels = array_filter($this->channels, function ($channel) use ($ids) {
-                return in_array($channel->id, $ids);
-            });
+        if (!empty($channel_ids)) {
+            $this->channels = array_filter($this->channels,
+                function ($channel) use ($channel_ids) {
+                    return in_array($channel->id, $channel_ids);
+                }
+            );
             $this->channels = array_values($this->channels);
         }
 
@@ -87,6 +90,9 @@ class TeleramaSniffer extends Sniffer
 
     /**
      * Get an array of program
+     *
+     * @param array $channel_ids: Filter on channels
+     * @param int $nb_days: number of days to grab
      *
      * @return array: An array of Program, as
      *
@@ -175,16 +181,16 @@ class TeleramaSniffer extends Sniffer
      *  }
      *}
      */
-    public function fetch_programs()
+    public function fetch_programs($channel_ids, $nb_days = 1)
     {
         if (!empty($this->programs)) {
             return $this->programs;
         }
 
-        $this->fetch_channels();
+        $this->fetch_channels($channel_ids);
 
         $day = new \Datetime();
-        for ($i = 0; $i < $this->nb_days; $i++) {
+        for ($i = 0; $i < $nb_days; $i++) {
             foreach ($this->channels as $channel) {
                 $url = $this->build_url(static::CHANNEL_GRID_PAGE, [
                     static::GRID_DATE_PARAM => $day->format("Y-m-d"),

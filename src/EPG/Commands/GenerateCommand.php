@@ -51,17 +51,11 @@ class GenerateCommand extends Command
 
         switch ($provider) {
             case Provider::TELERAMA_PROVIDER:
-                $sniffer = new TeleramaSniffer();
-                $sniffer
-                    ->filter_on_channels($channel_ids)
-                    ->set_days_to_grab($days_to_grab);
+                $sniffer  = new TeleramaSniffer();
                 $provider = new TeleramaProvider($sniffer);
                 break;
             case Provider::TELESTAR_PROVIDER:
-                $sniffer = new TelestarSniffer();
-                $sniffer
-                    ->filter_on_channels($channel_ids)
-                    ->set_days_to_grab($days_to_grab);
+                $sniffer  = new TelestarSniffer();
                 $provider = new TelestarProvider($sniffer);
                 break;
             default:
@@ -72,6 +66,10 @@ class GenerateCommand extends Command
                     Provider::TELESTAR_PROVIDER
                 ));
         }
+
+        $provider
+            ->filter_on_channels($channel_ids)
+            ->set_days_to_grab($days_to_grab);
 
         $epg = new Epg($provider);
 

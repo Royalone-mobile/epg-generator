@@ -28,7 +28,7 @@ class TelestarProvider extends Provider
      */
     public function get_channels()
     {
-        $channels = $this->sniffer->fetch_channels();
+        $channels = $this->sniffer->fetch_channels($this->channel_ids);
 
         return array_map(function ($epg_channel) {
             $channel = new Channel();
@@ -76,7 +76,7 @@ class TelestarProvider extends Provider
      */
     public function add_programs_to(&$xmltv)
     {
-        $programs = $this->sniffer->fetch_programs();
+        $programs = $this->sniffer->fetch_programs($this->channel_ids, $this->nb_days);
 
         foreach ($programs as $epg_program) {
             $xmltv->addProgramme([

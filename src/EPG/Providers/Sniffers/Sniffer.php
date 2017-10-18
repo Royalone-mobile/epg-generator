@@ -16,67 +16,32 @@ abstract class Sniffer
     protected $programs;
 
     /**
-     * @var int[]
-     */
-    protected $channel_ids;
-
-    /**
-     * @var int
-     */
-    protected $nb_days;
-
-    /**
      * Constructor
      */
     public function __construct()
     {
         $this->channels          = [];
         $this->programs          = [];
-        $this->channel_ids       = [];
-        $this->nb_days           = 1;
     }
 
     /**
      * Get an array of channels
      *
+     * @param array $channel_ids: Filter on channels
+     *
      * @return stdClass[]
      */
-    public abstract function fetch_channels();
+    public abstract function fetch_channels($channel_ids);
 
     /**
      * Get an array of program
      *
+     * @param array $channel_ids: Filter on channels
+     * @param int $nb_days: number of days to grab
+     *
      * @return stdClass[]
      */
-    public abstract function fetch_programs();
-
-    /**
-     * Filter the channels to fetch by their id
-     *
-     * @param array channel_ids: An array of channel ids
-     *
-     * @return Sniffer
-     */
-    public function filter_on_channels(array $channel_ids)
-    {
-        $this->channel_ids = $channel_ids;
-
-        return $this;
-    }
-
-    /**
-     * Set the number of days to grab
-     *
-     * @param int $nb_days
-     *
-     * @return Sniffer
-     */
-    public function set_days_to_grab($nb_days)
-    {
-        $this->nb_days = $nb_days;
-
-        return $this;
-    }
+    public abstract function fetch_programs($channel_ids, $nb_days);
 
     /**
      * Fetch a JSON stream
