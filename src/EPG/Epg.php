@@ -24,7 +24,7 @@ class Epg
     {
         $this->providers = is_array($providers) ? $providers : [$providers];
 
-        $this->xmltv    = new Xmltv();
+        $this->xmltv = new Xmltv();
         $this->xmltv
             ->setDate(date('Y-m-d'))
             ->setSourceinfourl('https://b-alidra.com/xmltv')
