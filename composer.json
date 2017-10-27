@@ -15,7 +15,10 @@
         }
     ],
     "autoload": {
-        "psr-4": { "EPG\\": "src/EPG" }
+        "psr-4": {
+            "EPG\\": "src/EPG",
+            "Stub\\": "tests/Stub"
+        }
     },
     "bin": ["script/epg.php"],
     "require-dev": {
