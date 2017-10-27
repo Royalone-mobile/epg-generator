@@ -22,4 +22,15 @@ class Channel extends EpgEntity
      * @var string
      */
     public $url;
+
+    /**
+     * Constructor to initialize data
+     */
+    public function __construct($id, $displayName, $icon = null, $url = null)
+    {
+        $this->id          = $id;
+        $this->displayName = $displayName;
+        $this->icon        = $icon;
+        $this->url         = $url;
+    }
 }

@@ -31,17 +31,15 @@ class TelestarProvider extends Provider
         $channels = $this->sniffer->fetch_channels($this->channel_ids);
 
         return array_map(function ($epg_channel) {
-            $channel = new Channel();
-
-            $channel->id = sprintf(
-                "%s%s%s",
-                $this->channel_id_prefix,
-                $epg_channel->id,
-                $this->channel_id_suffix
+            return new Channel(
+                sprintf(
+                    "%s%s%s",
+                    $this->channel_id_prefix,
+                    $epg_channel->id,
+                    $this->channel_id_suffix
+                ),
+                $epg_channel->label
             );
-            $channel->displayName = $epg_channel->label;
-
-            return $channel;
         }, $channels);
     }
 

@@ -31,19 +31,17 @@ class TeleramaProvider extends Provider
         $channels = $this->sniffer->fetch_channels($this->channel_ids);
 
         return array_map(function ($epg_channel) {
-            $channel = new Channel();
-
-            $channel->id = sprintf(
-                "%s%s%s",
-                $this->channel_id_prefix,
-                $epg_channel->id,
-                $this->channel_id_suffix
+            return new Channel(
+                sprintf(
+                    "%s%s%s",
+                    $this->channel_id_prefix,
+                    $epg_channel->id,
+                    $this->channel_id_suffix
+                ),
+                $epg_channel->nom,
+                $epg_channel->logo,
+                $epg_channel->link
             );
-            $channel->displayName = $epg_channel->nom;
-            $channel->icon        = $epg_channel->logo;
-            $channel->url         = $epg_channel->link;
-
-            return $channel;
         }, $channels);
     }
 
