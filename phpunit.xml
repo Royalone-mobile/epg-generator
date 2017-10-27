@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="phpunit.xsd"
-         bootstrap="tests/bootstrap.php"
-         verbose="true">
+    xsi:noNamespaceSchemaLocation="phpunit.xsd"
+    bootstrap="tests/bootstrap.php"
+    verbose="true">
+    <testsuites>
+        <testsuite name="Run'em all">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>
