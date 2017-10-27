@@ -1,9 +1,6 @@
 <?php
 namespace EPG\Providers\Sniffers;
 
-use EPG\Entities\Channel;
-use GuzzleHttp\Client;
-
 /**
  * Telerama sniffer
  */
@@ -39,6 +36,11 @@ class TeleramaSniffer extends Sniffer
      *
      * Remote channels have this form:
      *
+     *
+     * @param array $channel_ids: Filter on channels
+     *
+     * @return stdClass[]: an array of channels, as
+     *
      * class stdClass {
      *     public $id           => int
      *     public $logo         => string
@@ -48,10 +50,6 @@ class TeleramaSniffer extends Sniffer
      *     public $replay_logo  => string
      *     public $replay_nom   => string
      * }
-     *
-     * @param array $channel_ids: Filter on channels
-     *
-     * @return EPG\Entities\Channel[]
      */
     public function fetch_channels($channel_ids = [])
     {
@@ -94,7 +92,7 @@ class TeleramaSniffer extends Sniffer
      * @param array $channel_ids: Filter on channels
      * @param int $nb_days: number of days to grab
      *
-     * @return array: An array of Program, as
+     * @return stdClass[]: An array of Program, as
      *
      * class stdClass {
      *   annee_realisation => int
